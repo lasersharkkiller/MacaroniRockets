@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aprende CompTIA A+ | Macaroni Rockets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0a0c10;
+    --surface:   #111520;
+    --surface2:  #1a2035;
+    --surface3:  #1e2845;
+    --border:    #252d45;
+    --accent:    #00d4ff;
+    --accent2:   #ff4d6d;
+    --accent3:   #39d353;
+    --warn:      #f5c542;
+    --purple:    #a78bfa;
+    --text:      #c9d1e0;
+    --text-dim:  #6b7a99;
+    --text-head: #e8eaf6;
+    --mono:      'IBM Plex Mono', monospace;
+    --sans:      'IBM Plex Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: var(--sans); line-height: 1.7; overflow-x: hidden;
+  }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  a { color: var(--accent); text-decoration: none; transition: color .2s; }
+  a:hover { color: #fff; }
+
+  /* ── Navigation ── */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(10, 12, 16, 0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px; display: flex; align-items: center;
+    justify-content: space-between; height: 60px;
+  }
+  .nav-brand {
+    font-family: var(--mono); font-weight: 700; font-size: 1rem;
+    color: var(--accent); letter-spacing: .08em;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .nav-brand .rocket { font-size: 1.3rem; }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a {
+    font-size: .82rem; font-weight: 500; color: var(--text-dim);
+    letter-spacing: .02em; transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-breadcrumb {
+    font-family: var(--mono); font-size: .75rem; color: var(--text-dim);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .nav-breadcrumb .sep { color: var(--border); }
+  .nav-breadcrumb .current { color: var(--accent); }
+
+  /* ── Hero ── */
+  .course-hero {
+    padding: 120px 40px 60px; max-width: 1200px; margin: 0 auto;
+    position: relative;
+  }
+  .course-hero::before {
+    content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 60% 20%, rgba(0,212,255,.04) 0%, transparent 55%),
+                radial-gradient(ellipse at 20% 80%, rgba(167,139,250,.03) 0%, transparent 50%);
+    pointer-events: none; z-index: 0;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+  .course-eyebrow {
+    font-family: var(--mono); font-size: .7rem; letter-spacing: .14em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 12px;
+  }
+  .course-title {
+    font-family: var(--mono); font-size: 2.6rem; font-weight: 700;
+    color: var(--text-head); margin-bottom: 16px; letter-spacing: .02em;
+  }
+  .course-title .accent { color: var(--accent); }
+  .course-subtitle {
+    font-size: 1rem; color: var(--text-dim); max-width: 600px;
+    margin-bottom: 32px; font-weight: 300;
+  }
+  .course-stats {
+    display: flex; gap: 32px; flex-wrap: wrap; margin-bottom: 32px;
+  }
+  .stat {
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .stat-value {
+    font-family: var(--mono); font-size: 1.4rem; font-weight: 700;
+    color: var(--accent);
+  }
+  .stat-label {
+    font-size: .72rem; color: var(--text-dim); text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  .progress-bar-wrap {
+    max-width: 480px; margin-bottom: 8px;
+  }
+  .progress-bar-label {
+    display: flex; justify-content: space-between;
+    font-size: .72rem; font-family: var(--mono); color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+  .progress-bar-track {
+    height: 4px; background: var(--surface2); border-radius: 2px; overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%; border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--purple));
+    transition: width .5s ease;
+  }
+
+  /* ── Module section ── */
+  .module-section {
+    max-width: 1200px; margin: 0 auto; padding: 0 40px 80px;
+    position: relative; z-index: 1;
+  }
+  .module-header {
+    display: flex; align-items: flex-start; gap: 20px;
+    padding: 28px; margin-bottom: 24px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; border-left: 3px solid var(--accent);
+  }
+  .module-num {
+    font-family: var(--mono); font-size: .65rem; font-weight: 700;
+    color: var(--accent); background: rgba(0,212,255,.1);
+    border: 1px solid rgba(0,212,255,.2); border-radius: 4px;
+    padding: 4px 10px; white-space: nowrap; margin-top: 2px;
+  }
+  .module-info { flex: 1; }
+  .module-info h2 {
+    font-size: 1.15rem; font-weight: 700; color: var(--text-head);
+    margin-bottom: 4px;
+  }
+  .module-info p {
+    font-size: .82rem; color: var(--text-dim); line-height: 1.5;
+  }
+  .module-progress {
+    text-align: right; white-space: nowrap;
+  }
+  .module-progress .mp-count {
+    font-family: var(--mono); font-size: 1.1rem; font-weight: 700;
+    color: var(--text-head);
+  }
+  .module-progress .mp-label {
+    font-size: .7rem; color: var(--text-dim); display: block;
+  }
+
+  /* ── Lesson grid ── */
+  .lessons-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+  .lesson-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 24px; transition: all .25s;
+    position: relative; overflow: hidden; display: flex; flex-direction: column;
+    gap: 12px;
+  }
+  .lesson-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 2px; background: linear-gradient(90deg, var(--accent), var(--purple));
+    opacity: 0; transition: opacity .25s;
+  }
+  .lesson-card:not(.locked):hover {
+    border-color: rgba(0,212,255,.4);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0,212,255,.07);
+  }
+  .lesson-card:not(.locked):hover::before { opacity: 1; }
+  .lesson-card.locked {
+    opacity: .45; cursor: not-allowed;
+  }
+
+  .lesson-card-top {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .lesson-num {
+    font-family: var(--mono); font-size: .65rem; font-weight: 700;
+    color: var(--text-dim); letter-spacing: .06em;
+  }
+  .lesson-badge-available {
+    font-family: var(--mono); font-size: .62rem; padding: 2px 8px;
+    border-radius: 10px; background: rgba(57,211,83,.1);
+    color: var(--accent3); border: 1px solid rgba(57,211,83,.2);
+  }
+  .lesson-badge-soon {
+    font-family: var(--mono); font-size: .62rem; padding: 2px 8px;
+    border-radius: 10px; background: rgba(107,122,153,.1);
+    color: var(--text-dim); border: 1px solid var(--border);
+  }
+
+  .lesson-title {
+    font-size: 1rem; font-weight: 600; color: var(--text-head);
+    line-height: 1.4;
+  }
+
+  .lesson-meta {
+    display: flex; gap: 16px; font-size: .72rem; color: var(--text-dim);
+    font-family: var(--mono);
+  }
+  .lesson-meta span { display: flex; align-items: center; gap: 4px; }
+
+  .lesson-tags {
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .lesson-tags span {
+    padding: 2px 8px; border-radius: 10px; font-size: .66rem;
+    font-family: var(--mono); background: var(--surface2); color: var(--text-dim);
+    border: 1px solid var(--border);
+  }
+
+  .lesson-watch-btn {
+    margin-top: auto; padding: 10px 20px; border-radius: 6px; font-size: .82rem;
+    font-weight: 600; font-family: var(--sans); cursor: pointer; border: none;
+    background: rgba(0,212,255,.1); color: var(--accent);
+    border: 1px solid rgba(0,212,255,.2); transition: all .2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%;
+  }
+  .lesson-watch-btn:hover {
+    background: rgba(0,212,255,.18); box-shadow: 0 0 16px rgba(0,212,255,.15);
+  }
+  .lesson-locked-label {
+    margin-top: auto; padding: 10px 20px; border-radius: 6px; font-size: .82rem;
+    font-weight: 600; text-align: center; color: var(--text-dim);
+    border: 1px solid var(--border); background: transparent;
+  }
+
+  /* ── Coming Soon modules ── */
+  .modules-coming {
+    max-width: 1200px; margin: 0 auto; padding: 0 40px 80px;
+    position: relative; z-index: 1;
+  }
+  .coming-label {
+    font-family: var(--mono); font-size: .7rem; letter-spacing: .12em;
+    color: var(--text-dim); text-transform: uppercase; margin-bottom: 20px;
+  }
+  .coming-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .coming-card {
+    background: var(--surface); border: 1px dashed var(--border);
+    border-radius: 8px; padding: 20px 24px; opacity: .5;
+  }
+  .coming-card h4 {
+    font-size: .92rem; font-weight: 600; color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+  .coming-card p {
+    font-size: .75rem; color: var(--text-dim); opacity: .7;
+  }
+
+  /* ── Video Modal ── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 2000;
+    background: rgba(0,0,0,.88); backdrop-filter: blur(8px);
+    align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; width: 100%; max-width: 900px;
+    overflow: hidden; position: relative;
+    box-shadow: 0 24px 80px rgba(0,0,0,.6);
+  }
+  .modal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 24px; border-bottom: 1px solid var(--border);
+  }
+  .modal-lesson-info { display: flex; flex-direction: column; gap: 2px; }
+  .modal-lesson-num {
+    font-family: var(--mono); font-size: .65rem; color: var(--text-dim);
+    letter-spacing: .06em;
+  }
+  .modal-lesson-title {
+    font-size: 1rem; font-weight: 600; color: var(--text-head);
+  }
+  .modal-close {
+    background: transparent; border: 1px solid var(--border); color: var(--text-dim);
+    width: 32px; height: 32px; border-radius: 6px; cursor: pointer;
+    font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
+    transition: all .2s; flex-shrink: 0;
+  }
+  .modal-close:hover { border-color: var(--accent2); color: var(--accent2); }
+  .modal-video-wrap {
+    background: #000; position: relative;
+  }
+  .modal-video-wrap video {
+    width: 100%; display: block; max-height: 70vh;
+  }
+  .modal-footer {
+    padding: 12px 24px; display: flex; align-items: center;
+    justify-content: space-between;
+  }
+  .modal-course-label {
+    font-family: var(--mono); font-size: .68rem; color: var(--text-dim);
+  }
+  .modal-nav-btns {
+    display: flex; gap: 10px;
+  }
+  .modal-nav-btn {
+    background: transparent; border: 1px solid var(--border); color: var(--text-dim);
+    padding: 6px 14px; border-radius: 5px; cursor: pointer; font-size: .75rem;
+    font-family: var(--mono); transition: all .2s;
+  }
+  .modal-nav-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+  .modal-nav-btn:disabled { opacity: .3; cursor: not-allowed; }
+
+  /* ── Footer ── */
+  .course-footer {
+    border-top: 1px solid var(--border); padding: 32px 40px;
+    text-align: center; color: var(--text-dim); font-size: .78rem;
+    position: relative; z-index: 1;
+  }
+  .course-footer a { color: var(--accent); }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .nav { padding: 0 20px; }
+    .nav-links { gap: 16px; }
+    .course-hero { padding: 100px 20px 40px; }
+    .module-section, .modules-coming { padding: 0 20px 60px; }
+    .module-header { flex-direction: column; gap: 12px; }
+    .module-progress { text-align: left; }
+    .course-title { font-size: 1.9rem; }
+    .lessons-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .nav-links { display: none; }
+    .course-title { font-size: 1.5rem; }
+    .course-stats { gap: 20px; }
+    .modal-box { border-radius: 8px; }
+    .modal-footer { flex-direction: column; gap: 10px; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+  <div class="nav-brand">
+    <span class="rocket">&#127744;</span>
+    <div class="nav-breadcrumb">
+      <a href="../index.html" style="color:var(--text-dim);font-weight:400;">MACARONI ROCKETS</a>
+      <span class="sep">/</span>
+      <span class="current">Aprende CompTIA A+</span>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="../index.html">&#8592; Home</a>
+    <a href="../index.html#reports">Reports</a>
+    <a href="https://github.com/lasersharkkiller/Loaded-Potato" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<!-- Course Hero -->
+<div class="course-hero">
+  <div class="hero-inner">
+    <div class="course-eyebrow">// Certification Training &middot; CompTIA A+ 220-1101</div>
+    <h1 class="course-title">Aprende <span class="accent">CompTIA A+</span></h1>
+    <p class="course-subtitle">
+      Curso completo para la certificaci&oacute;n CompTIA A+ en espa&ntilde;ol.
+      Lecciones en video con Katie, tu instructora de tecnolog&iacute;a.
+    </p>
+
+    <div class="course-stats">
+      <div class="stat">
+        <span class="stat-value">7</span>
+        <span class="stat-label">Lecciones disponibles</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">~56 min</span>
+        <span class="stat-label">Contenido actual</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">ES</span>
+        <span class="stat-label">Idioma</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value">Free</span>
+        <span class="stat-label">Costo</span>
+      </div>
+    </div>
+
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-label">
+        <span>Progreso del curso</span>
+        <span>7 / 19 lecciones</span>
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" style="width: 37%"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Module 1: Dispositivos Móviles -->
+<div class="module-section">
+  <div class="module-header">
+    <div class="module-num">M&Oacute;DULO 01</div>
+    <div class="module-info">
+      <h2>Dispositivos M&oacute;viles &mdash; Mobile Devices</h2>
+      <p>Caracter&iacute;sticas de laptops, componentes reemplazables, tipos de pantallas,
+         conectividad, accesorios, correo electr&oacute;nico, sincronizaci&oacute;n y resoluci&oacute;n de problemas.</p>
+    </div>
+    <div class="module-progress">
+      <div class="mp-count">7 / 8</div>
+      <span class="mp-label">lecciones</span>
+    </div>
+  </div>
+
+  <div class="lessons-grid" id="lessons-grid">
+
+    <div class="lesson-card" data-lesson="1">
+      <div class="lesson-card-top">
+        <span class="lesson-num">LECCI&Oacute;N 01</span>
+        <span class="lesson-badge-available">&#9654; Disponible</span>
+      </div>
+      <div class="lesson-title">Caracter&iacute;sticas de las Laptops</div>
+      <div class="lesson-meta">
+        <span>&#9201; ~9 min</span>
+        <span>&#127916; 56 clips</span>
+      </div>
+      <div class="lesson-tags">
+        <span>Pantallas</span><span>Teclado</span><span>Bater&iacute;a</span><span>RAM</span><span>SSD</span>
+      </div>
+      <button class="lesson-watch-btn"
+        onclick="openLesson(1, 'Características de las Laptops', 'lesson_01_caracteristicas-laptops.mp4')">
+        &#9654;&ensp;Ver Lecci&oacute;n
+      </button>
+    </div>
+
+    <div class="lesson-card" data-lesson="2">
+      <div class="lesson-card-top">
+        <span class="lesson-num">LECCI&Oacute;N 02</span>
+        <span class="lesson-badge-available">&#9654; Disponible</span>
+      </div>
+      <div class="lesson-title">Componentes Reemplazables en Laptops</div>
+      <div class="lesson-meta">
+        <span>&#9201; ~9 min</span>
+        <span>&#127916; 54 clips</span>
+      </div>
+      <div class="lesson-tags">
+        <span>RAM</span><span>Almacenamiento</span><span>Wi-Fi</span><span>Pasta T&eacute;rmica</span>
+      </div>
+      <button class="lesson-watch-btn"
+        onclick="openLesson(2, 'Componentes Reemplazables en Laptops', 'lesson_02_componentes-reemplazables.mp4')">
+        &#9654;&ensp;Ver Lecci&oacute;n
+      </button>
+    </div>
+
+    <div class="lesson-card" data-lesson="3">
+      <div class="lesson-card-top">
+        <span class="lesson-num">LECCI&Oacute;N 03</span>
+        <span class="lesson-badge-available">&#9654; Disponible</span>
+      </div>
+      <div class="lesson-title">Tipos de Pantallas</div>
+      <div class="lesson-meta">
+        <span>&#9201; ~6.5 min</span>
+        <span>&#127916; 39 clips</span>
+      </div>
+      <div class="lesson-tags">
+        <span>LCD</span><span>OLED</span><span>AMOLED</span><span>T&aacute;ctil</span><span>PPI</span>
+      </div>
+      <button class="lesson-watch-btn"
+        onclick="openLesson(3, 'Tipos de Pantallas', 'lesson_03_tipos-pantallas.mp4')">
+        &#9654;&ensp;Ver Lecci&oacute;n
+      </button>
+    </div>
+
+    <div class="lesson-card" data-lesson="4">
+      <div class="lesson-card-top">
+        <span class="lesson-num">LECCI&Oacute;N 04</span>
+        <span class="lesson-badge-available">&#9654; Disponible</span>
+      </div>
+      <div class="lesson-title">Conectividad en Dispositivos M&oacute;viles</div>
+      <div class="lesson-meta">
+        <span>&#9201; ~8 min</span>
+        <span>&#127916; 50 clips</span>
+      </div>
+      <div class="lesson-tags">
+        <span>Wi-Fi</span><span>Bluetooth</span><span>NFC</span><span>GPS</span><span>Celular</span>
+      </div>
+      <button class="lesson-watch-btn"
+        onclick="openLesson(4, 'Conectividad en Dispositivos Móviles', 'lesson_04_conectividad-moviles.mp4')">
+        &#9654;&ensp;Ver Lecci&oacute;n
+      </button>
+    </div>
+
+    <div class="lesson-card" data-lesson="5">
+      <div class="lesson-card-top">
+        <span class="lesson-num">LECCI&Oacute;N 05</span>
+        <span class="lesson-badge-available">&#9654; Disponible</span>
+      </div>
+      <div class="lesson-title">Accesorios para Dispositivos M&oacute;viles</div>
+      <div class="lesson-meta">
+        <span>&#9201; ~7 min</span>
+        <span>&#127916; 42 clips</span>
+      </div>
+      <div class="lesson-tags">
+        <span>Auriculares</span><span>Cargadores</span><span>Cases</span><span>Stylus</span>
+      </div>
+      <button class="lesson-watch-btn"
+        onclick="openLesson(5, 'Accesorios para Dispositivos Móviles', 'lesson_05_accesorios-moviles.mp4')">
+        &#9654;&ensp;Ver Lecci&oacute;n
+      </button>
+    </div>
+
+    <div class="lesson-card" data-lesson="6">
+      <div class="lesson-card-top">
+        <span class="lesson-num">LECCI&Oacute;N 06</span>
+        <span class="lesson-badge-available">&#9654; Disponible</span>
+      </div>
+      <div class="lesson-title">Configuraci&oacute;n de Correo Electr&oacute;nico</div>
+      <div class="lesson-meta">
+        <span>&#9201; ~8.5 min</span>
+        <span>&#127916; 51 clips</span>
+      </div>
+      <div class="lesson-tags">
+        <span>POP3</span><span>IMAP</span><span>Exchange</span><span>ActiveSync</span>
+      </div>
+      <button class="lesson-watch-btn"
+        onclick="openLesson(6, 'Configuración de Correo Electrónico', 'lesson_06_configuracion-correo.mp4')">
+        &#9654;&ensp;Ver Lecci&oacute;n
+      </button>
+    </div>
+
+    <div class="lesson-card" data-lesson="7">
+      <div class="lesson-card-top">
+        <span class="lesson-num">LECCI&Oacute;N 07</span>
+        <span class="lesson-badge-available">&#9654; Disponible</span>
+      </div>
+      <div class="lesson-title">Sincronizaci&oacute;n de Datos</div>
+      <div class="lesson-meta">
+        <span>&#9201; ~7 min</span>
+        <span>&#127916; 43 clips</span>
+      </div>
+      <div class="lesson-tags">
+        <span>iCloud</span><span>Google</span><span>OneDrive</span><span>Backup</span>
+      </div>
+      <button class="lesson-watch-btn"
+        onclick="openLesson(7, 'Sincronización de Datos', 'lesson_07_sincronizacion-datos.mp4')">
+        &#9654;&ensp;Ver Lecci&oacute;n
+      </button>
+    </div>
+
+    <div class="lesson-card locked" data-lesson="8">
+      <div class="lesson-card-top">
+        <span class="lesson-num">LECCI&Oacute;N 08</span>
+        <span class="lesson-badge-soon">&#128274; Pr&oacute;ximamente</span>
+      </div>
+      <div class="lesson-title">Resoluci&oacute;n de Problemas de M&oacute;viles</div>
+      <div class="lesson-meta">
+        <span>&#9201; ~9 min</span>
+        <span>&#127916; 57 clips</span>
+      </div>
+      <div class="lesson-tags">
+        <span>Troubleshooting</span><span>Diagn&oacute;stico</span><span>Reset</span>
+      </div>
+      <div class="lesson-locked-label">&#128274;&ensp;En producci&oacute;n</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Coming Soon Modules -->
+<div class="modules-coming">
+  <div class="coming-label">// M&oacute;dulos pr&oacute;ximamente &mdash; Core 1 (220-1101)</div>
+  <div class="coming-grid">
+    <div class="coming-card">
+      <h4>&#128246;&ensp;M&oacute;dulo 02 &mdash; Redes</h4>
+      <p>Puertos y protocolos, Modelo OSI, Direccionamiento IP, Dispositivos de red, Cableado</p>
+    </div>
+    <div class="coming-card">
+      <h4>&#128187;&ensp;M&oacute;dulo 03 &mdash; Hardware</h4>
+      <p>Placas base, Procesadores CPU, Memoria RAM</p>
+    </div>
+    <div class="coming-card">
+      <h4>&#9729;&#65039;&ensp;M&oacute;dulo 04 &mdash; Virtualizaci&oacute;n y Nube</h4>
+      <p>Conceptos de virtualización, Servicios en la nube</p>
+    </div>
+    <div class="coming-card">
+      <h4>&#128295;&ensp;M&oacute;dulo 05 &mdash; Resoluci&oacute;n de Problemas</h4>
+      <p>Diagn&oacute;stico y reparaci&oacute;n de hardware</p>
+    </div>
+  </div>
+</div>
+
+<!-- Video Modal -->
+<div class="modal-overlay" id="videoModal" onclick="handleOverlayClick(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-lesson-info">
+        <div class="modal-lesson-num" id="modalLessonNum">LECCI&Oacute;N 00</div>
+        <div class="modal-lesson-title" id="modalLessonTitle">Cargando...</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()" title="Cerrar (Esc)">&#215;</button>
+    </div>
+    <div class="modal-video-wrap">
+      <video id="modalVideo" controls playsinline>
+        Tu navegador no soporta el elemento video.
+      </video>
+    </div>
+    <div class="modal-footer">
+      <span class="modal-course-label">Aprende CompTIA A+ &middot; M&oacute;dulo 01</span>
+      <div class="modal-nav-btns">
+        <button class="modal-nav-btn" id="btnPrev" onclick="navigateLesson(-1)">&#8592; Anterior</button>
+        <button class="modal-nav-btn" id="btnNext" onclick="navigateLesson(1)">Siguiente &#8594;</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="course-footer">
+  <p>
+    <a href="../index.html">&#127744; Macaroni Rockets</a>
+    &mdash; Aprende CompTIA A+ &mdash; Curso gratuito en espa&ntilde;ol
+  </p>
+  <p style="margin-top:6px; opacity:.6;">
+    Instructor: Katie &middot; CompTIA A+ 220-1101 (Core 1)
+  </p>
+</footer>
+
+<script>
+  // ── Video path configuration ──────────────────────────────────────────
+  // Videos are served from the A+ project output folder.
+  // Update this path if you move the videos or upload to a CDN:
+  const VIDEO_BASE = 'videos/';
+
+  // Available lessons (lesson number → filename)
+  const AVAILABLE = {
+    1: 'lesson_01_caracteristicas-laptops.mp4',
+    2: 'lesson_02_componentes-reemplazables.mp4',
+    3: 'lesson_03_tipos-pantallas.mp4',
+    4: 'lesson_04_conectividad-moviles.mp4',
+    5: 'lesson_05_accesorios-moviles.mp4',
+    6: 'lesson_06_configuracion-correo.mp4',
+    7: 'lesson_07_sincronizacion-datos.mp4',
+  };
+
+  let currentLesson = null;
+
+  function openLesson(num, title, file) {
+    currentLesson = num;
+    document.getElementById('modalLessonNum').textContent = `LECCIÓN ${String(num).padStart(2,'0')}`;
+    document.getElementById('modalLessonTitle').textContent = title;
+    const video = document.getElementById('modalVideo');
+    video.src = VIDEO_BASE + file;
+    video.load();
+    video.play().catch(() => {});
+    document.getElementById('videoModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    updateNavBtns();
+  }
+
+  function closeModal() {
+    const video = document.getElementById('modalVideo');
+    video.pause();
+    video.src = '';
+    document.getElementById('videoModal').classList.remove('open');
+    document.body.style.overflow = '';
+    currentLesson = null;
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('videoModal')) closeModal();
+  }
+
+  function navigateLesson(dir) {
+    if (!currentLesson) return;
+    const next = currentLesson + dir;
+    if (!AVAILABLE[next]) return;
+    const card = document.querySelector(`.lesson-card[data-lesson="${next}"]`);
+    if (!card) return;
+    const btn = card.querySelector('.lesson-watch-btn');
+    if (btn) btn.click();
+  }
+
+  function updateNavBtns() {
+    document.getElementById('btnPrev').disabled = !AVAILABLE[currentLesson - 1];
+    document.getElementById('btnNext').disabled = !AVAILABLE[currentLesson + 1];
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'ArrowLeft' && currentLesson) navigateLesson(-1);
+    if (e.key === 'ArrowRight' && currentLesson) navigateLesson(1);
+  });
+</script>
+
+</body>
+</html>

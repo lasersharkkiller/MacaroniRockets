@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Macaroni Rockets - Open Source Cybersecurity Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0a0c10;
+    --surface:   #111520;
+    --surface2:  #1a2035;
+    --surface3:  #1e2845;
+    --border:    #252d45;
+    --accent:    #00d4ff;
+    --accent2:   #ff4d6d;
+    --accent3:   #39d353;
+    --warn:      #f5c542;
+    --purple:    #a78bfa;
+    --text:      #c9d1e0;
+    --text-dim:  #6b7a99;
+    --text-head: #e8eaf6;
+    --mono:      'IBM Plex Mono', monospace;
+    --sans:      'IBM Plex Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  a { color: var(--accent); text-decoration: none; transition: color .2s; }
+  a:hover { color: #fff; }
+
+  /* ── Navigation ─────────────────────────────── */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    background: rgba(10, 12, 16, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .nav-brand {
+    font-family: var(--mono); font-weight: 700; font-size: 1rem;
+    color: var(--accent); letter-spacing: .08em;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .nav-brand .rocket { font-size: 1.3rem; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a {
+    font-size: .82rem; font-weight: 500; color: var(--text-dim);
+    letter-spacing: .02em; transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── Hero ────────────────────────────────────── */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center;
+    padding: 120px 40px 80px; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(ellipse at 50% 40%, rgba(0,212,255,.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 30% 70%, rgba(255,77,109,.04) 0%, transparent 50%);
+    animation: drift 20s ease-in-out infinite alternate;
+  }
+  @keyframes drift {
+    from { transform: translate(0, 0) rotate(0deg); }
+    to   { transform: translate(30px, -20px) rotate(2deg); }
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 800px; }
+  .hero h1 {
+    font-family: var(--mono); font-size: 3.2rem; font-weight: 700;
+    color: #fff; letter-spacing: .04em; margin-bottom: 8px;
+  }
+  .hero h1 .accent { color: var(--accent); }
+  .hero .tagline {
+    font-size: 1.15rem; color: var(--text-dim); margin-bottom: 36px;
+    font-weight: 300; max-width: 600px; margin-left: auto; margin-right: auto;
+  }
+  .hero-badges {
+    display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .badge {
+    padding: 6px 16px; border-radius: 20px; font-size: .75rem;
+    font-family: var(--mono); border: 1px solid; display: flex;
+    align-items: center; gap: 6px;
+  }
+  .badge-blue   { border-color: rgba(0,212,255,.3);  color: var(--accent);  background: rgba(0,212,255,.08); }
+  .badge-green  { border-color: rgba(57,211,83,.3);   color: var(--accent3); background: rgba(57,211,83,.08); }
+  .badge-red    { border-color: rgba(255,77,109,.3);   color: var(--accent2); background: rgba(255,77,109,.08); }
+  .badge-purple { border-color: rgba(167,139,250,.3);  color: var(--purple);  background: rgba(167,139,250,.08); }
+
+  .hero-cta {
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+  }
+  .btn {
+    padding: 12px 28px; border-radius: 6px; font-size: .88rem;
+    font-weight: 600; font-family: var(--sans); cursor: pointer;
+    transition: all .2s; display: inline-flex; align-items: center; gap: 8px;
+    text-decoration: none; border: 1px solid transparent;
+  }
+  .btn-primary {
+    background: var(--accent); color: var(--bg); border-color: var(--accent);
+  }
+  .btn-primary:hover { background: #33dfff; color: var(--bg); box-shadow: 0 0 20px rgba(0,212,255,.3); }
+  .btn-outline {
+    background: transparent; color: var(--text); border-color: var(--border);
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── Section shared ─────────────────────────── */
+  section { padding: 80px 40px; max-width: 1200px; margin: 0 auto; }
+  .section-label {
+    font-family: var(--mono); font-size: .7rem; letter-spacing: .14em;
+    color: var(--accent); text-transform: uppercase; margin-bottom: 10px;
+  }
+  .section-title {
+    font-size: 2rem; font-weight: 700; color: var(--text-head);
+    margin-bottom: 16px;
+  }
+  .section-desc {
+    color: var(--text-dim); max-width: 680px; margin-bottom: 48px;
+    font-size: .95rem;
+  }
+
+  /* ── Report cards ───────────────────────────── */
+  .reports-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 24px;
+  }
+  .report-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 32px 28px;
+    transition: all .25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .report-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; border-radius: 10px 10px 0 0;
+  }
+  .report-card:nth-child(1)::before { background: linear-gradient(90deg, var(--accent), var(--purple)); }
+  .report-card:nth-child(2)::before { background: linear-gradient(90deg, var(--accent2), var(--warn)); }
+  .report-card:nth-child(3)::before { background: linear-gradient(90deg, var(--accent3), var(--accent)); }
+  .report-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0,212,255,.08);
+  }
+  .report-card .card-icon {
+    font-size: 1.6rem; margin-bottom: 16px;
+  }
+  .report-card h3 {
+    font-size: 1.15rem; font-weight: 600; color: var(--text-head);
+    margin-bottom: 10px;
+  }
+  .report-card p {
+    font-size: .85rem; color: var(--text-dim); margin-bottom: 20px;
+    line-height: 1.6;
+  }
+  .report-card .card-tags {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
+  }
+  .report-card .card-tags span {
+    padding: 3px 10px; border-radius: 12px; font-size: .68rem;
+    font-family: var(--mono); background: var(--surface2); color: var(--text-dim);
+    border: 1px solid var(--border);
+  }
+  .report-card .card-link {
+    font-size: .82rem; font-weight: 600; color: var(--accent);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .report-card .card-link:hover { color: #fff; }
+
+  /* ── Capabilities Grid ───────────────────────── */
+  .cap-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .cap-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    transition: all .2s;
+  }
+  .cap-card:hover {
+    border-color: var(--accent);
+    background: var(--surface2);
+  }
+  .cap-card h4 {
+    font-size: .95rem; font-weight: 600; color: var(--text-head);
+    margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+  }
+  .cap-card p {
+    font-size: .82rem; color: var(--text-dim); line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  .cap-card .cap-modules {
+    font-size: .7rem; font-family: var(--mono); color: var(--text-dim);
+    opacity: .7;
+  }
+  .category-header {
+    grid-column: 1 / -1;
+    padding: 20px 0 8px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 4px;
+  }
+  .category-header h3 {
+    font-size: 1.05rem; font-weight: 600; color: var(--text-head);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .category-header h3 .cat-dot {
+    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+  }
+
+  /* ── About / Mission ────────────────────────── */
+  .mission-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+  }
+  .mission-item {
+    padding: 28px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .mission-item .mi-icon { font-size: 1.4rem; margin-bottom: 12px; }
+  .mission-item h4 {
+    font-size: .95rem; font-weight: 600; color: var(--text-head);
+    margin-bottom: 8px;
+  }
+  .mission-item p { font-size: .83rem; color: var(--text-dim); line-height: 1.6; }
+
+  /* ── Footer ─────────────────────────────────── */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 40px;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: .78rem;
+  }
+  .footer a { color: var(--accent); }
+  .footer .footer-links {
+    display: flex; gap: 24px; justify-content: center;
+    margin-bottom: 16px; flex-wrap: wrap;
+  }
+
+  /* ── Responsive ─────────────────────────────── */
+  @media (max-width: 768px) {
+    .nav { padding: 0 20px; }
+    .nav-links { gap: 16px; }
+    .nav-links a { font-size: .75rem; }
+    .hero h1 { font-size: 2rem; }
+    .hero .tagline { font-size: 1rem; }
+    section { padding: 60px 20px; }
+    .section-title { font-size: 1.5rem; }
+    .reports-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .nav-links { display: none; }
+    .hero h1 { font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+  <div class="nav-brand">
+    <span class="rocket">&#127744;</span> MACARONI ROCKETS
+  </div>
+  <div class="nav-links">
+    <a href="#reports">Reports</a>
+    <a href="#capabilities">Capabilities</a>
+    <a href="#mission">Mission</a>
+    <a href="learn/comptia-aplus.html">Learn</a>
+    <a href="https://github.com/lasersharkkiller/Loaded-Potato" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>MACARONI <span class="accent">ROCKETS</span></h1>
+    <p class="tagline">
+      Open source cybersecurity intelligence, threat research, and defensive tooling
+      &mdash; built by the community, for the community.
+    </p>
+    <div class="hero-badges">
+      <span class="badge badge-blue">Threat Intelligence</span>
+      <span class="badge badge-red">MITRE ATT&amp;CK</span>
+      <span class="badge badge-green">EDR Analysis</span>
+      <span class="badge badge-purple">Open Source</span>
+    </div>
+    <div class="hero-cta">
+      <a href="#reports" class="btn btn-primary">View Reports &darr;</a>
+      <a href="https://github.com/lasersharkkiller/Loaded-Potato" target="_blank" class="btn btn-outline">
+        &#9733; Loaded Potato on GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Live Reports -->
+<section id="reports">
+  <div class="section-label">// Intelligence Reports</div>
+  <h2 class="section-title">Live Threat Research</h2>
+  <p class="section-desc">
+    Interactive dashboards and matrices generated from open source intelligence feeds,
+    MITRE ATT&amp;CK mappings, and real-world malware analysis. All data and tooling is
+    freely available through our
+    <a href="https://github.com/lasersharkkiller/Loaded-Potato" target="_blank">Loaded Potato</a> project.
+  </p>
+  <div class="reports-grid">
+
+    <div class="report-card">
+      <div class="card-icon">&#128202;</div>
+      <h3>API Capabilities Matrix</h3>
+      <p>
+        MITRE ATT&amp;CK re-envisioned through the lens of Windows API calls. Maps
+        technique IDs to the native APIs that malware uses to execute each tactic,
+        with cross-references to known malware families and EDR hook points.
+      </p>
+      <div class="card-tags">
+        <span>MITRE ATT&amp;CK</span>
+        <span>Windows API</span>
+        <span>Malware Analysis</span>
+      </div>
+      <a href="reports/API_Capabilities_Matrix.html" class="card-link">
+        Open Matrix &rarr;
+      </a>
+    </div>
+
+    <div class="report-card">
+      <div class="card-icon">&#128737;</div>
+      <h3>EDR Evasion &amp; Gap Matrix</h3>
+      <p>
+        Comprehensive analysis of EDR vendor API hook coverage mapped against
+        known evasion techniques. Identifies gaps in userland hooking across
+        major endpoint protection platforms with risk-tiered severity ratings.
+      </p>
+      <div class="card-tags">
+        <span>EDR Coverage</span>
+        <span>API Hooks</span>
+        <span>Gap Analysis</span>
+      </div>
+      <a href="reports/EDREvasionMatrix.html" class="card-link">
+        Open Matrix &rarr;
+      </a>
+    </div>
+
+    <div class="report-card">
+      <div class="card-icon">&#127758;</div>
+      <h3>Global Threat Dashboard</h3>
+      <p>
+        Real-time intelligence dashboard aggregating APT group activity, malware
+        family tracking, and campaign indicators from open source threat intel
+        feeds including MITRE, VirusTotal, and community contributions.
+      </p>
+      <div class="card-tags">
+        <span>APT Groups</span>
+        <span>Malware Families</span>
+        <span>Threat Intel</span>
+      </div>
+      <a href="reports/Global_Threat_Dashboard.html" class="card-link">
+        Open Dashboard &rarr;
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- Aprende CompTIA A+ -->
+<section id="learn">
+  <div class="section-label">// Learning Resources</div>
+  <h2 class="section-title">Aprende CompTIA A+</h2>
+  <p class="section-desc">
+    Free CompTIA A+ certification training in Spanish &mdash; video lessons taught by Katie,
+    your AI-powered tech instructor. Module 1 is live now, covering all core Mobile Devices objectives.
+  </p>
+  <div class="reports-grid">
+
+    <div class="report-card">
+      <div class="card-icon">&#127891;</div>
+      <h3>M&oacute;dulo 01 &mdash; Dispositivos M&oacute;viles</h3>
+      <p>
+        7 lecciones disponibles covering laptop characteristics, replaceable components,
+        display types, mobile connectivity, accessories, email configuration, and data sync.
+        ~56 minutes of video content, free.
+      </p>
+      <div class="card-tags">
+        <span>7 lessons live</span>
+        <span>Spanish</span>
+        <span>CompTIA A+</span>
+        <span>220-1101</span>
+      </div>
+      <a href="learn/comptia-aplus.html" class="card-link">
+        Start Learning &rarr;
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- Loaded Potato Capabilities -->
+<section id="capabilities">
+  <div class="section-label">// Loaded Potato Capabilities</div>
+  <h2 class="section-title">What's Inside the Potato</h2>
+  <p class="section-desc">
+    <a href="https://github.com/lasersharkkiller/Loaded-Potato" target="_blank">Loaded Potato</a>
+    is a 130+ module platform for threat hunting, malware analysis, forensics, and detection
+    engineering &mdash; integrating with Sentinel One, Microsoft Defender, Trend Micro Vision One,
+    Elastic, and dozens of threat intelligence APIs.
+  </p>
+  <div class="cap-grid">
+
+    <!-- Threat Hunting & EDR Integration -->
+    <div class="category-header">
+      <h3><span class="cat-dot" style="background:var(--accent)"></span> Threat Hunting &amp; EDR Integration</h3>
+    </div>
+    <div class="cap-card">
+      <h4>Multi-EDR Alert Triage</h4>
+      <p>Unified alert ingestion and enrichment across Sentinel One, Microsoft Defender XDR,
+         Trend Micro Vision One, and Elastic. Automated threat attribution scoring and
+         cross-platform correlation of alerts and indicators.</p>
+      <div class="cap-modules">18+ modules &middot; S1, Defender, V1, Elastic</div>
+    </div>
+    <div class="cap-card">
+      <h4>Process Anomaly Detection</h4>
+      <p>Discovers unsigned, unverified, and suspicious processes across your environment.
+         Identifies new publishers, special-character process names, and file magic type
+         mismatches against enterprise baselines.</p>
+      <div class="cap-modules">20+ modules &middot; signature &amp; behavioral analysis</div>
+    </div>
+    <div class="cap-card">
+      <h4>Forensic Long-Tail Analysis</h4>
+      <p>Surfaces rare processes, DLLs, and artifacts that hide in the noise. Compares
+         alert-specific telemetry against enterprise-wide baselines to find what doesn't
+         belong &mdash; the long tail where attackers live.</p>
+      <div class="cap-modules">parent procs, image paths, network ports, DNS, IOCs</div>
+    </div>
+
+    <!-- Malware Analysis & Purple Teaming -->
+    <div class="category-header">
+      <h3><span class="cat-dot" style="background:var(--accent2)"></span> Malware Analysis &amp; Purple Teaming</h3>
+    </div>
+    <div class="cap-card">
+      <h4>Mass Malware Detonation</h4>
+      <p>Automated execution pipeline for malware samples with support for PE, PDF, and
+         browser-based payloads. Downloads samples from VirusTotal, MalwareBazaar, and
+         community feeds for controlled detonation.</p>
+      <div class="cap-modules">13+ modules &middot; VT, MalwareBazaar, Intezer</div>
+    </div>
+    <div class="cap-card">
+      <h4>Differential Behavioral Analysis</h4>
+      <p>Compares process behavior across malware samples, clean baselines, and APT families.
+         Identifies unique malicious API calls, DLL loads, and behavioral patterns that
+         distinguish threats from legitimate software.</p>
+      <div class="cap-modules">12+ modules &middot; NSRL enrichment, string analysis</div>
+    </div>
+    <div class="cap-card">
+      <h4>APT Intelligence &amp; Attribution</h4>
+      <p>Maintains 50+ nation-state actor profiles and 100+ malware family signatures.
+         Cross-references hashes, domains, and IPs against known campaigns for automated
+         threat attribution.</p>
+      <div class="cap-modules">apt/ database &middot; VT Intelligence, Cybersixgill</div>
+    </div>
+
+    <!-- Forensics & Incident Response -->
+    <div class="category-header">
+      <h3><span class="cat-dot" style="background:var(--warn)"></span> Forensics &amp; Incident Response</h3>
+    </div>
+    <div class="cap-card">
+      <h4>Linux Forensic Triage (UAC)</h4>
+      <p>Offline analysis of Unix Artifact Collector dumps with 19 specialized modules:
+         rootkit detection, hidden processes, C2 hunting, persistence mechanisms,
+         webshell scanning, container escape vectors, and timeline reconstruction.</p>
+      <div class="cap-modules">19 sub-modules &middot; BPFDoor, Reptile, Sysrv detection</div>
+    </div>
+    <div class="cap-card">
+      <h4>Network &amp; Router Forensics</h4>
+      <p>Batch IP reputation checking, ASN analysis via Team Cymru, blocked country
+         detection, and network device forensics. Extracts network IOCs from Elastic,
+         S1, Defender, and Devo SIEM.</p>
+      <div class="cap-modules">8+ modules &middot; Cymru, APIVoid, Cyber6Gil</div>
+    </div>
+    <div class="cap-card">
+      <h4>Certificate &amp; Supply Chain Hunting</h4>
+      <p>Identifies digital signature gaps, revoked certificates, and suspicious publishers.
+         Scans for embedded GitHub repositories in baselines and generates OSSF Scorecard
+         risk assessments with YARA pattern matching.</p>
+      <div class="cap-modules">5 modules &middot; cert gaps, revoked certs, OSSF scoring</div>
+    </div>
+
+    <!-- Detection Engineering -->
+    <div class="category-header">
+      <h3><span class="cat-dot" style="background:var(--accent3)"></span> Detection Engineering &amp; Rule Management</h3>
+    </div>
+    <div class="cap-card">
+      <h4>Automated Rule Development</h4>
+      <p>Converts differential analysis findings into detection rules. Generates Sigma rules
+         from malicious API patterns, converts between EDR formats (Sigma to S1), and syncs
+         detection rules directly to Kibana SIEM.</p>
+      <div class="cap-modules">rule dev, Sigma conversion, NDJSON sync</div>
+    </div>
+    <div class="cap-card">
+      <h4>YARA &amp; LOLDrivers Management</h4>
+      <p>Maintains and deploys YARA rules to Elasticsearch. Tracks the Living-off-the-Land
+         Drivers database and exports LOLDriver detections as Kibana rules for endpoint
+         monitoring.</p>
+      <div class="cap-modules">YARA updates, LOLDrivers cache, Kibana export</div>
+    </div>
+    <div class="cap-card">
+      <h4>Purple Team Metrics</h4>
+      <p>Measures detection coverage and effectiveness from purple team exercises. Tracks
+         which detonated samples triggered alerts, which were missed, and where detection
+         gaps remain across your EDR stack.</p>
+      <div class="cap-modules">coverage scoring &middot; gap identification</div>
+    </div>
+
+    <!-- Compliance & Hardening -->
+    <div class="category-header">
+      <h3><span class="cat-dot" style="background:var(--purple)"></span> Compliance &amp; Hardening</h3>
+    </div>
+    <div class="cap-card">
+      <h4>Multi-Framework Compliance Scanning</h4>
+      <p>Automated scanning against CIS Benchmarks, CMMC, and NIST 800-171 frameworks.
+         Generates formatted compliance reports with pass/fail/remediation details for
+         audit readiness.</p>
+      <div class="cap-modules">CIS, CMMC, NIST 800-171 &middot; HTML/PDF reports</div>
+    </div>
+    <div class="cap-card">
+      <h4>Windows Hardening &amp; GPO</h4>
+      <p>Pre-built Group Policy Objects for workstations, servers, and domain controllers.
+         Implements local hardening baselines aligned with CIS and DoD STIG recommendations
+         out of the box.</p>
+      <div class="cap-modules">workstation, server, DC profiles</div>
+    </div>
+    <div class="cap-card">
+      <h4>Linux Hardening &amp; Audit</h4>
+      <p>CIS benchmark auditing for Linux systems with automated auditd policy deployment
+         and logging hardening. Configures journald and rsyslog to meet compliance
+         requirements.</p>
+      <div class="cap-modules">linux-scan.sh, auditd, rsyslog hardening</div>
+    </div>
+
+    <!-- Reporting & Orchestration -->
+    <div class="category-header">
+      <h3><span class="cat-dot" style="background:var(--warn)"></span> Reporting &amp; Orchestration</h3>
+    </div>
+    <div class="cap-card">
+      <h4>Interactive Threat Dashboards</h4>
+      <p>Generates rich HTML dashboards including the API Capabilities Matrix, Global Threat
+         Dashboard, EDR Evasion Matrix, and Attribution Reports &mdash; all from automated
+         analysis pipelines.</p>
+      <div class="cap-modules">API matrix, threat dashboard, EDR matrix</div>
+    </div>
+    <div class="cap-card">
+      <h4>Master Orchestration Engine</h4>
+      <p>Centralized PowerShell and Bash orchestration scripts that tie all modules together.
+         GUI application for visual workflow management. Supports automated weekly metrics
+         and API quota monitoring.</p>
+      <div class="cap-modules">LoadedPotato_Main.ps1 &middot; Linux_Main.sh &middot; GUI</div>
+    </div>
+    <div class="cap-card">
+      <h4>Integrated Tool Suite</h4>
+      <p>Ships with Thor-Lite for YARA/IOC scanning, KAPE for forensic artifact collection,
+         DFIR-ORC for incident response, and UAC for Linux evidence gathering &mdash; ready
+         to deploy without additional setup.</p>
+      <div class="cap-modules">Thor-Lite, KAPE, DFIR-ORC, UAC</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Mission -->
+<section id="mission">
+  <div class="section-label">// Our Mission</div>
+  <h2 class="section-title">Why Macaroni Rockets?</h2>
+  <p class="section-desc">
+    We believe that effective cybersecurity shouldn't be locked behind enterprise paywalls.
+    Every defender deserves access to the same quality of threat intelligence and analysis
+    tooling as the adversaries they face.
+  </p>
+  <div class="mission-grid">
+    <div class="mission-item">
+      <div class="mi-icon">&#128270;</div>
+      <h4>Open Source First</h4>
+      <p>All of our research, tooling, and intelligence outputs are published freely.
+         Our core project <a href="https://github.com/lasersharkkiller/Loaded-Potato" target="_blank">Loaded Potato</a>
+         provides automated threat analysis pipelines anyone can run.</p>
+    </div>
+    <div class="mission-item">
+      <div class="mi-icon">&#129302;</div>
+      <h4>Community Driven</h4>
+      <p>Built by practitioners, for practitioners. We contribute back to the security
+         community through shared detections, analysis frameworks, and research outputs
+         that make everyone's defenses stronger.</p>
+    </div>
+    <div class="mission-item">
+      <div class="mi-icon">&#128640;</div>
+      <h4>Actionable Intelligence</h4>
+      <p>We don't just aggregate data &mdash; we analyze it. Our reports map real-world threats
+         to defensive gaps, giving security teams the context they need to prioritize
+         what matters right now.</p>
+    </div>
+    <div class="mission-item">
+      <div class="mi-icon">&#128274;</div>
+      <h4>Defender Advantage</h4>
+      <p>By understanding attacker tooling at the API level and mapping EDR coverage gaps,
+         we help defenders stay ahead. Transparency about what is and isn't covered is
+         the first step to closing those gaps.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-links">
+    <a href="https://github.com/lasersharkkiller/Loaded-Potato" target="_blank">GitHub: Loaded Potato</a>
+    <a href="#reports">Reports</a>
+    <a href="learn/comptia-aplus.html">Aprende CompTIA A+</a>
+    <a href="#capabilities">Capabilities</a>
+    <a href="#mission">Mission</a>
+  </div>
+  <p>&copy; 2026 Macaroni Rockets. Open source cybersecurity intelligence.</p>
+  <p style="margin-top: 6px;">
+    Powered by <a href="https://github.com/lasersharkkiller/Loaded-Potato" target="_blank">Loaded Potato</a>
+    &mdash; giving tooling back to the security community.
+  </p>
+</footer>
+
+</body>
+</html>

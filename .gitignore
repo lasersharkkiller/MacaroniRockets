@@ -1,0 +1,11 @@
+# Videos are tracked via Git LFS — do not add raw mp4s outside learn/videos/
+# Uncomment below if you ever switch to YouTube embeds and want to exclude videos entirely:
+# learn/videos/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+*.swp
