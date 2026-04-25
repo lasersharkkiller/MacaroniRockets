@@ -557,10 +557,10 @@
       </button>
     </div>
 
-    <div class="lesson-card locked" data-lesson="8">
+    <div class="lesson-card" data-lesson="8" onclick="openLesson(8, 'Resolución de Problemas de Móviles', AVAILABLE[8])">
       <div class="lesson-card-top">
         <span class="lesson-num">LECCI&Oacute;N 08</span>
-        <span class="lesson-badge-soon">&#128274; Pr&oacute;ximamente</span>
+        <span class="lesson-badge">&#9654; Ver Lección</span>
       </div>
       <div class="lesson-title">Resoluci&oacute;n de Problemas de M&oacute;viles</div>
       <div class="lesson-meta">
@@ -570,7 +570,7 @@
       <div class="lesson-tags">
         <span>Troubleshooting</span><span>Diagn&oacute;stico</span><span>Reset</span>
       </div>
-      <div class="lesson-locked-label">&#128274;&ensp;En producci&oacute;n</div>
+      <button class="lesson-watch-btn">&#9654;&ensp;Ver Lecci&oacute;n</button>
     </div>
 
   </div>
@@ -650,6 +650,7 @@
     5: 'lesson_05_accesorios-moviles.mp4',
     6: 'lesson_06_configuracion-correo.mp4',
     7: 'lesson_07_sincronizacion-datos.mp4',
+    8: 'lesson_08_resolucion-problemas-moviles.mp4',
   };
 
   let currentLesson = null;
