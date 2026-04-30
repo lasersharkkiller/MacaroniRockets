@@ -297,9 +297,11 @@
   .modal-close:hover { border-color: var(--accent2); color: var(--accent2); }
   .modal-video-wrap {
     background: #000; position: relative;
+    width: 100%; aspect-ratio: 16 / 9; max-height: 70vh;
   }
-  .modal-video-wrap video {
-    width: 100%; display: block; max-height: 70vh;
+  .modal-video-wrap iframe {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; border: 0; display: block;
   }
   .modal-footer {
     padding: 12px 24px; display: flex; align-items: center;
@@ -438,7 +440,7 @@
         <span>Pantallas</span><span>Teclado</span><span>Bater&iacute;a</span><span>RAM</span><span>SSD</span>
       </div>
       <button class="lesson-watch-btn"
-        onclick="openLesson(1, 'Características de las Laptops', 'lesson_01_caracteristicas-laptops.mp4')">
+        onclick="openLesson(1, 'Características de las Laptops', 'nNAruYpCw08')">
         &#9654;&ensp;Ver Lecci&oacute;n
       </button>
     </div>
@@ -457,7 +459,7 @@
         <span>RAM</span><span>Almacenamiento</span><span>Wi-Fi</span><span>Pasta T&eacute;rmica</span>
       </div>
       <button class="lesson-watch-btn"
-        onclick="openLesson(2, 'Componentes Reemplazables en Laptops', 'lesson_02_componentes-reemplazables.mp4')">
+        onclick="openLesson(2, 'Componentes Reemplazables en Laptops', 'bfXljpeZvDc')">
         &#9654;&ensp;Ver Lecci&oacute;n
       </button>
     </div>
@@ -476,7 +478,7 @@
         <span>LCD</span><span>OLED</span><span>AMOLED</span><span>T&aacute;ctil</span><span>PPI</span>
       </div>
       <button class="lesson-watch-btn"
-        onclick="openLesson(3, 'Tipos de Pantallas', 'lesson_03_tipos-pantallas.mp4')">
+        onclick="openLesson(3, 'Tipos de Pantallas', 'j5OLVxWutwc')">
         &#9654;&ensp;Ver Lecci&oacute;n
       </button>
     </div>
@@ -495,7 +497,7 @@
         <span>Wi-Fi</span><span>Bluetooth</span><span>NFC</span><span>GPS</span><span>Celular</span>
       </div>
       <button class="lesson-watch-btn"
-        onclick="openLesson(4, 'Conectividad en Dispositivos Móviles', 'lesson_04_conectividad-moviles.mp4')">
+        onclick="openLesson(4, 'Conectividad en Dispositivos Móviles', 'ZSUqw3BPvCQ')">
         &#9654;&ensp;Ver Lecci&oacute;n
       </button>
     </div>
@@ -514,7 +516,7 @@
         <span>Auriculares</span><span>Cargadores</span><span>Cases</span><span>Stylus</span>
       </div>
       <button class="lesson-watch-btn"
-        onclick="openLesson(5, 'Accesorios para Dispositivos Móviles', 'lesson_05_accesorios-moviles.mp4')">
+        onclick="openLesson(5, 'Accesorios para Dispositivos Móviles', 'Xn8vFXX3nMk')">
         &#9654;&ensp;Ver Lecci&oacute;n
       </button>
     </div>
@@ -533,7 +535,7 @@
         <span>POP3</span><span>IMAP</span><span>Exchange</span><span>ActiveSync</span>
       </div>
       <button class="lesson-watch-btn"
-        onclick="openLesson(6, 'Configuración de Correo Electrónico', 'lesson_06_configuracion-correo.mp4')">
+        onclick="openLesson(6, 'Configuración de Correo Electrónico', 'CN4wKuagnBM')">
         &#9654;&ensp;Ver Lecci&oacute;n
       </button>
     </div>
@@ -552,12 +554,12 @@
         <span>iCloud</span><span>Google</span><span>OneDrive</span><span>Backup</span>
       </div>
       <button class="lesson-watch-btn"
-        onclick="openLesson(7, 'Sincronización de Datos', 'lesson_07_sincronizacion-datos.mp4')">
+        onclick="openLesson(7, 'Sincronización de Datos', 'GxgvGSv2Qlk')">
         &#9654;&ensp;Ver Lecci&oacute;n
       </button>
     </div>
 
-    <div class="lesson-card" data-lesson="8" onclick="openLesson(8, 'Resolución de Problemas de Móviles', AVAILABLE[8])">
+    <div class="lesson-card" data-lesson="8">
       <div class="lesson-card-top">
         <span class="lesson-num">LECCI&Oacute;N 08</span>
         <span class="lesson-badge">&#9654; Ver Lección</span>
@@ -570,7 +572,10 @@
       <div class="lesson-tags">
         <span>Troubleshooting</span><span>Diagn&oacute;stico</span><span>Reset</span>
       </div>
-      <button class="lesson-watch-btn">&#9654;&ensp;Ver Lecci&oacute;n</button>
+      <button class="lesson-watch-btn"
+        onclick="openLesson(8, 'Resolución de Problemas de Móviles', 'N6K3luDbXXo')">
+        &#9654;&ensp;Ver Lecci&oacute;n
+      </button>
     </div>
 
   </div>
@@ -610,9 +615,12 @@
       <button class="modal-close" onclick="closeModal()" title="Cerrar (Esc)">&#215;</button>
     </div>
     <div class="modal-video-wrap">
-      <video id="modalVideo" controls playsinline>
-        Tu navegador no soporta el elemento video.
-      </video>
+      <iframe id="modalVideo"
+              src=""
+              title="Lecci&oacute;n"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen></iframe>
     </div>
     <div class="modal-footer">
       <span class="modal-course-label">Aprende CompTIA A+ &middot; M&oacute;dulo 01</span>
@@ -636,42 +644,40 @@
 </footer>
 
 <script>
-  // ── Video path configuration ──────────────────────────────────────────
-  // Videos are served from the A+ project output folder.
-  // Update this path if you move the videos or upload to a CDN:
-  const VIDEO_BASE = 'videos/';
-
-  // Available lessons (lesson number → filename)
+  // ── Video configuration ───────────────────────────────────────────────
+  // Lessons are hosted on YouTube under the Cyber Panda channel.
+  // Map: lesson number → YouTube video ID
   const AVAILABLE = {
-    1: 'lesson_01_caracteristicas-laptops.mp4',
-    2: 'lesson_02_componentes-reemplazables.mp4',
-    3: 'lesson_03_tipos-pantallas.mp4',
-    4: 'lesson_04_conectividad-moviles.mp4',
-    5: 'lesson_05_accesorios-moviles.mp4',
-    6: 'lesson_06_configuracion-correo.mp4',
-    7: 'lesson_07_sincronizacion-datos.mp4',
-    8: 'lesson_08_resolucion-problemas-moviles.mp4',
+    1: 'nNAruYpCw08',  // Características de las Laptops
+    2: 'bfXljpeZvDc',  // Componentes Reemplazables
+    3: 'j5OLVxWutwc',  // Tipos de Pantallas
+    4: 'ZSUqw3BPvCQ',  // Conectividad de Móviles
+    5: 'Xn8vFXX3nMk',  // Accesorios para Móviles
+    6: 'CN4wKuagnBM',  // Configuración de Correo
+    7: 'GxgvGSv2Qlk',  // Sincronización de Datos
+    8: 'N6K3luDbXXo',  // Resolución de Problemas de Móviles
   };
+
+  function youtubeEmbedSrc(videoId) {
+    return `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+  }
 
   let currentLesson = null;
 
-  function openLesson(num, title, file) {
+  function openLesson(num, title, videoId) {
     currentLesson = num;
     document.getElementById('modalLessonNum').textContent = `LECCIÓN ${String(num).padStart(2,'0')}`;
     document.getElementById('modalLessonTitle').textContent = title;
-    const video = document.getElementById('modalVideo');
-    video.src = VIDEO_BASE + file;
-    video.load();
-    video.play().catch(() => {});
+    const iframe = document.getElementById('modalVideo');
+    iframe.src = youtubeEmbedSrc(videoId);
     document.getElementById('videoModal').classList.add('open');
     document.body.style.overflow = 'hidden';
     updateNavBtns();
   }
 
   function closeModal() {
-    const video = document.getElementById('modalVideo');
-    video.pause();
-    video.src = '';
+    const iframe = document.getElementById('modalVideo');
+    iframe.src = '';  // setting empty stops playback (YouTube embed has no JS pause API on basic embed)
     document.getElementById('videoModal').classList.remove('open');
     document.body.style.overflow = '';
     currentLesson = null;
