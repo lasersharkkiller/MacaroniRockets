@@ -302,7 +302,7 @@
   <div class="hero-content">
     <h1>MACARONI <span class="accent">ROCKETS</span></h1>
     <p class="tagline">
-      Open source cybersecurity intelligence, threat research, and defensive tooling
+      Open source cybersecurity intelligence, threat research, defensive tooling, and training
       &mdash; built by the community, for the community.
     </p>
     <div class="hero-badges">
@@ -315,6 +315,12 @@
       <a href="#reports" class="btn btn-primary">View Reports &darr;</a>
       <a href="https://github.com/lasersharkkiller/elasticPotato" target="_blank" class="btn btn-outline">
         &#9733; Elastic Potato on GitHub
+      </a>
+      <a href="https://github.com/lasersharkkiller/hardPotato" target="_blank" class="btn btn-outline">
+        &#9733; Hardening &amp; Compliance on GitHub
+      </a>
+      <a href="https://github.com/lasersharkkiller/statisticalDifferentialPotato" target="_blank" class="btn btn-outline">
+        &#9733; NextGen NSRL on GitHub
       </a>
     </div>
   </div>
@@ -427,166 +433,237 @@
   <h2 class="section-title">What's Inside the Potato</h2>
   <p class="section-desc">
     <a href="https://github.com/lasersharkkiller/elasticPotato" target="_blank">Elastic Potato</a>
-    is a 130+ module platform for threat hunting, malware analysis, forensics, and detection
-    engineering &mdash; integrating with Sentinel One, Microsoft Defender, Trend Micro Vision One,
-    Elastic, and dozens of threat intelligence APIs.
+    is the Elastic-focused triage toolkit at the core of Macaroni Rockets &mdash; covering
+    remote collector deployment, offline forensic triage (UAC + router), Elastic alert
+    investigation with an AI agent, and process baselining in an Elastic environment.
+    Companion projects extend the workflow:
+    <a href="https://github.com/lasersharkkiller/hardPotato" target="_blank">Hardening &amp; Compliance</a>
+    and
+    <a href="https://github.com/lasersharkkiller/statisticalDifferentialPotato" target="_blank">NextGen NSRL</a>.
   </p>
   <div class="cap-grid">
 
-    <!-- Threat Hunting & EDR Integration -->
+    <!-- Remote Collection Tool Deployment -->
     <div class="category-header">
-      <h3><span class="cat-dot" style="background:var(--accent)"></span> Threat Hunting &amp; EDR Integration</h3>
+      <h3><span class="cat-dot" style="background:var(--accent)"></span> Remote Collection Tool Deployment</h3>
     </div>
     <div class="cap-card">
-      <h4>Multi-EDR Alert Triage</h4>
-      <p>Unified alert ingestion and enrichment across Sentinel One, Microsoft Defender XDR,
-         Trend Micro Vision One, and Elastic. Automated threat attribution scoring and
-         cross-platform correlation of alerts and indicators.</p>
-      <div class="cap-modules">18+ modules &middot; S1, Defender, V1, Elastic</div>
+      <h4>Offline Collector Deployment</h4>
+      <p>Pushes UAC, KAPE, and DFIR-ORC to remote hosts from pre-staged offline packages.
+         No internet access required on the target &mdash; ideal for incident response on
+         air-gapped or restricted networks.</p>
+      <div class="cap-modules">Deploy-UAC &middot; Deploy-KAPE &middot; Deploy-DFIR-ORC</div>
     </div>
     <div class="cap-card">
-      <h4>Process Anomaly Detection</h4>
-      <p>Discovers unsigned, unverified, and suspicious processes across your environment.
-         Identifies new publishers, special-character process names, and file magic type
-         mismatches against enterprise baselines.</p>
-      <div class="cap-modules">20+ modules &middot; signature &amp; behavioral analysis</div>
-    </div>
-    <div class="cap-card">
-      <h4>Forensic Long-Tail Analysis</h4>
-      <p>Surfaces rare processes, DLLs, and artifacts that hide in the noise. Compares
-         alert-specific telemetry against enterprise-wide baselines to find what doesn't
-         belong &mdash; the long tail where attackers live.</p>
-      <div class="cap-modules">parent procs, image paths, network ports, DNS, IOCs</div>
+      <h4>Router Forensic Dump (Live SSH)</h4>
+      <p>Pulls ~75 forensic commands from a live router or edge device over SSH and saves
+         the dump for offline analysis. Auto-detects platform across Cisco IOS-XE, NX-OS,
+         Junos, FortiOS, PAN-OS, MikroTik, and more.</p>
+      <div class="cap-modules">Save-RouterDump &middot; 10+ platforms</div>
     </div>
 
-    <!-- Malware Analysis & Purple Teaming -->
+    <!-- Forensic Triage -->
     <div class="category-header">
-      <h3><span class="cat-dot" style="background:var(--accent2)"></span> Malware Analysis &amp; Purple Teaming</h3>
+      <h3><span class="cat-dot" style="background:var(--warn)"></span> Offline Forensic Triage</h3>
     </div>
     <div class="cap-card">
-      <h4>Mass Malware Detonation</h4>
-      <p>Automated execution pipeline for malware samples with support for PE, PDF, and
-         browser-based payloads. Downloads samples from VirusTotal, MalwareBazaar, and
-         community feeds for controlled detonation.</p>
-      <div class="cap-modules">13+ modules &middot; VT, MalwareBazaar, Intezer</div>
+      <h4>Linux / UAC Dump Triage</h4>
+      <p>Offline expert analysis of Unix Artifact Collector dumps: rootkit detection, hidden
+         processes, C2 hunting, persistence mechanisms, credential exposure, timeline
+         reconstruction, and APT attribution against the apt/ intel base.</p>
+      <div class="cap-modules">Invoke-UACTriage &middot; apt/ intel base</div>
     </div>
     <div class="cap-card">
-      <h4>Differential Behavioral Analysis</h4>
-      <p>Compares process behavior across malware samples, clean baselines, and APT families.
-         Identifies unique malicious API calls, DLL loads, and behavioral patterns that
-         distinguish threats from legitimate software.</p>
-      <div class="cap-modules">12+ modules &middot; NSRL enrichment, string analysis</div>
-    </div>
-    <div class="cap-card">
-      <h4>APT Intelligence &amp; Attribution</h4>
-      <p>Maintains 50+ nation-state actor profiles and 100+ malware family signatures.
-         Cross-references hashes, domains, and IPs against known campaigns for automated
-         threat attribution.</p>
-      <div class="cap-modules">apt/ database &middot; VT Intelligence, Cybersixgill</div>
+      <h4>Edge Router APT Triage</h4>
+      <p>APT-focused analysis of routers and edge devices. Run live via SSH against the
+         device or offline against a previously saved dump. Produces HTML triage reports
+         for IR delivery.</p>
+      <div class="cap-modules">Invoke-RouterTriage &middot; live SSH + offline modes</div>
     </div>
 
-    <!-- Forensics & Incident Response -->
+    <!-- Elastic Alert Triage -->
     <div class="category-header">
-      <h3><span class="cat-dot" style="background:var(--warn)"></span> Forensics &amp; Incident Response</h3>
+      <h3><span class="cat-dot" style="background:var(--accent2)"></span> Elastic Alert Triage</h3>
     </div>
     <div class="cap-card">
-      <h4>Linux Forensic Triage (UAC)</h4>
-      <p>Offline analysis of Unix Artifact Collector dumps with 19 specialized modules:
-         rootkit detection, hidden processes, C2 hunting, persistence mechanisms,
-         webshell scanning, container escape vectors, and timeline reconstruction.</p>
-      <div class="cap-modules">19 sub-modules &middot; BPFDoor, Reptile, Sysrv detection</div>
+      <h4>AI Agent Alert Triage</h4>
+      <p>Agentic Elastic alert investigation for both Windows and Linux endpoints. Pulls
+         detonation logs, enriches with VirusTotal offline data, and produces a structured
+         alert triage report &mdash; tuned per the included tuning guide.</p>
+      <div class="cap-modules">ElasticAlertAgent &middot; Invoke-ElasticLinuxTriage</div>
     </div>
     <div class="cap-card">
-      <h4>Network &amp; Router Forensics</h4>
-      <p>Batch IP reputation checking, ASN analysis via Team Cymru, blocked country
-         detection, and network device forensics. Extracts network IOCs from Elastic,
-         S1, Defender, and Devo SIEM.</p>
-      <div class="cap-modules">8+ modules &middot; Cymru, APIVoid, Cyber6Gil</div>
+      <h4>Detonation Log + IOC/YARA Scan</h4>
+      <p>Pulls Elastic detonation logs by time window and runs Thor or Loki YARA/IOC scans
+         against downloaded malicious files. Combined offline analysis path bundles log
+         pull, rule refresh, and AI triage in one step.</p>
+      <div class="cap-modules">GetElasticDetonationLogs &middot; Invoke-LokiScan &middot; Thor auto-detect</div>
     </div>
     <div class="cap-card">
-      <h4>Certificate &amp; Supply Chain Hunting</h4>
-      <p>Identifies digital signature gaps, revoked certificates, and suspicious publishers.
-         Scans for embedded GitHub repositories in baselines and generates OSSF Scorecard
-         risk assessments with YARA pattern matching.</p>
-      <div class="cap-modules">5 modules &middot; cert gaps, revoked certs, OSSF scoring</div>
+      <h4>LOL Drivers &amp; YARA Rule Refresh</h4>
+      <p>Keeps detection content current: pulls the LOL Drivers database (loldrivers.io +
+         LOLDrivers Sigma + SigmaHQ) and syncs Elastic's protections-artifacts YARA rules
+         into the local detections cache.</p>
+      <div class="cap-modules">Update-LolDriversCache &middot; Update-ElasticYaraRules</div>
     </div>
 
-    <!-- Detection Engineering -->
+    <!-- Elastic Process Baselining -->
     <div class="category-header">
-      <h3><span class="cat-dot" style="background:var(--accent3)"></span> Detection Engineering &amp; Rule Management</h3>
+      <h3><span class="cat-dot" style="background:var(--accent3)"></span> Elastic Process Baselining</h3>
     </div>
     <div class="cap-card">
-      <h4>Automated Rule Development</h4>
-      <p>Converts differential analysis findings into detection rules. Generates Sigma rules
-         from malicious API patterns, converts between EDR formats (Sigma to S1), and syncs
-         detection rules directly to Kibana SIEM.</p>
-      <div class="cap-modules">rule dev, Sigma conversion, NDJSON sync</div>
+      <h4>New Process Surveys</h4>
+      <p>Surveys new processes appearing in an Elastic environment along several axes:
+         specific process name, new drivers, unverified publishers, unsigned Windows
+         processes, and unsigned Linux processes.</p>
+      <div class="cap-modules">elasticProcessBaseline &middot; Invoke-ElasticProcessSurvey</div>
     </div>
     <div class="cap-card">
-      <h4>YARA &amp; LOLDrivers Management</h4>
-      <p>Maintains and deploys YARA rules to Elasticsearch. Tracks the Living-off-the-Land
-         Drivers database and exports LOLDriver detections as Kibana rules for endpoint
-         monitoring.</p>
-      <div class="cap-modules">YARA updates, LOLDrivers cache, Kibana export</div>
-    </div>
-    <div class="cap-card">
-      <h4>Purple Team Metrics</h4>
-      <p>Measures detection coverage and effectiveness from purple team exercises. Tracks
-         which detonated samples triggered alerts, which were missed, and where detection
-         gaps remain across your EDR stack.</p>
-      <div class="cap-modules">coverage scoring &middot; gap identification</div>
+      <h4>Process Enrichment</h4>
+      <p>Enriches baseline findings with VirusTotal verdicts, APIVoid IP reputation,
+         suspicious-ASN flags, domain cleanup, and special-character process detection
+         &mdash; the long tail where attackers hide.</p>
+      <div class="cap-modules">CheckAgainstVT &middot; CheckApiVoid &middot; CheckSuspiciousASNs &middot; elasticSpecialCharsProcs</div>
     </div>
 
-    <!-- Compliance & Hardening -->
+  </div>
+</section>
+
+<!-- Hardening & Compliance Capabilities -->
+<section id="capabilities-hardening">
+  <div class="section-label">// Hardening &amp; Compliance Capabilities</div>
+  <h2 class="section-title">What's Inside Hardening &amp; Compliance</h2>
+  <p class="section-desc">
+    <a href="https://github.com/lasersharkkiller/hardPotato" target="_blank">Hardening &amp; Compliance</a>
+    is a Windows + Linux toolkit for applying CIS/STIG-aligned configuration and running read-only
+    audits against NIST 800-53, NIST 800-171, CIS Benchmarks, and CMMC 2.0 &mdash; with HTML/CSV reports.
+  </p>
+  <div class="cap-grid">
+
+    <!-- Windows Hardening -->
     <div class="category-header">
-      <h3><span class="cat-dot" style="background:var(--purple)"></span> Compliance &amp; Hardening</h3>
+      <h3><span class="cat-dot" style="background:var(--purple)"></span> Windows Hardening</h3>
     </div>
     <div class="cap-card">
-      <h4>Multi-Framework Compliance Scanning</h4>
-      <p>Automated scanning against CIS Benchmarks, CMMC, and NIST 800-171 frameworks.
-         Generates formatted compliance reports with pass/fail/remediation details for
-         audit readiness.</p>
-      <div class="cap-modules">CIS, CMMC, NIST 800-171 &middot; HTML/PDF reports</div>
+      <h4>Hardened GPO Baselines</h4>
+      <p>Generates import-ready Group Policy Object backups for Workstation, Server, and Domain
+         Controller profiles. Imports hardened GPOs into Active Directory with optional OU linking
+         and enforcement &mdash; aligned with CIS and DoD STIG recommendations.</p>
+      <div class="cap-modules">HardenedGPO.psm1 &middot; New-HardenedGPO &middot; Import-HardenedGPO</div>
     </div>
     <div class="cap-card">
-      <h4>Windows Hardening &amp; GPO</h4>
-      <p>Pre-built Group Policy Objects for workstations, servers, and domain controllers.
-         Implements local hardening baselines aligned with CIS and DoD STIG recommendations
-         out of the box.</p>
-      <div class="cap-modules">workstation, server, DC profiles</div>
-    </div>
-    <div class="cap-card">
-      <h4>Linux Hardening &amp; Audit</h4>
-      <p>CIS benchmark auditing for Linux systems with automated auditd policy deployment
-         and logging hardening. Configures journald and rsyslog to meet compliance
-         requirements.</p>
-      <div class="cap-modules">linux-scan.sh, auditd, rsyslog hardening</div>
+      <h4>Local Hardening (No AD Required)</h4>
+      <p>Apply CIS/STIG configuration without Active Directory or Group Policy. Uses secedit,
+         auditpol, and registry to enforce baseline settings on a single host. Profile auto-detection
+         distinguishes workstations, member servers, and DCs.</p>
+      <div class="cap-modules">Invoke-LocalHardening &middot; secedit + auditpol + registry</div>
     </div>
 
-    <!-- Reporting & Orchestration -->
+    <!-- Linux Hardening -->
     <div class="category-header">
-      <h3><span class="cat-dot" style="background:var(--warn)"></span> Reporting &amp; Orchestration</h3>
+      <h3><span class="cat-dot" style="background:var(--accent3)"></span> Linux Hardening</h3>
     </div>
     <div class="cap-card">
-      <h4>Interactive Threat Dashboards</h4>
-      <p>Generates rich HTML dashboards including the API Capabilities Matrix, Global Threat
-         Dashboard, EDR Evasion Matrix, and Attribution Reports &mdash; all from automated
-         analysis pipelines.</p>
-      <div class="cap-modules">API matrix, threat dashboard, EDR matrix</div>
+      <h4>Auditd &amp; Logging Policy</h4>
+      <p>Bash scripts that deploy hardened auditd rules and rsyslog/journald configuration aligned
+         with CIS Linux benchmarks. Runs natively on Linux or via WSL from a Windows host.</p>
+      <div class="cap-modules">set-auditd-policy.sh &middot; set-logging-policy.sh</div>
     </div>
     <div class="cap-card">
-      <h4>Master Orchestration Engine</h4>
-      <p>Centralized PowerShell and Bash orchestration scripts that tie all modules together.
-         GUI application for visual workflow management. Supports automated weekly metrics
-         and API quota monitoring.</p>
-      <div class="cap-modules">elasticPotato_Main.ps1</div>
+      <h4>Linux Compliance Scan</h4>
+      <p>Read-only audit against CIS Linux benchmarks producing pass/fail/remediation output.
+         Pairs with the auditd/logging hardening scripts to verify enforcement.</p>
+      <div class="cap-modules">linux-scan.sh &middot; CIS Linux</div>
+    </div>
+
+    <!-- Compliance Scanning -->
+    <div class="category-header">
+      <h3><span class="cat-dot" style="background:var(--accent)"></span> Multi-Framework Compliance Scanning</h3>
     </div>
     <div class="cap-card">
-      <h4>Integrated Tool Suite</h4>
-      <p>Ships with Thor-Lite for YARA/IOC scanning, KAPE for forensic artifact collection,
-         DFIR-ORC for incident response, and UAC for Linux evidence gathering &mdash; ready
-         to deploy without additional setup.</p>
-      <div class="cap-modules">Thor-Lite, KAPE, DFIR-ORC, UAC</div>
+      <h4>NIST 800-53 + CIS Quick Scan</h4>
+      <p>~200-check rapid audit combining NIST 800-53 Rev 5 controls with CIS Benchmark essentials.
+         Read-only and non-disruptive &mdash; safe to run in production.</p>
+      <div class="cap-modules">Invoke-ComplianceScan &middot; 200+ checks</div>
+    </div>
+    <div class="cap-card">
+      <h4>Full CIS, CMMC &amp; NIST 800-171</h4>
+      <p>Comprehensive scans across Win 10/11 and Server 2022. Full CIS Benchmark coverage (~420
+         checks), CMMC 2.0 (Level 1 or Level 1+2), and all 110 NIST 800-171 Rev 2 controls.</p>
+      <div class="cap-modules">Invoke-CISScan &middot; Invoke-CMMCScan &middot; Invoke-NIST800171Scan</div>
+    </div>
+    <div class="cap-card">
+      <h4>Audit-Ready Report Export</h4>
+      <p>Exports the last scan as formatted HTML and CSV reports with pass/fail status and
+         remediation notes &mdash; ready for assessor delivery and tracking.</p>
+      <div class="cap-modules">Export-ScanReport &middot; HTML + CSV</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- NextGen NSRL Capabilities -->
+<section id="capabilities-nsrl">
+  <div class="section-label">// NextGen NSRL Capabilities</div>
+  <h2 class="section-title">What's Inside NextGen NSRL</h2>
+  <p class="section-desc">
+    <a href="https://github.com/lasersharkkiller/statisticalDifferentialPotato" target="_blank">NextGen NSRL</a>
+    is a VirusTotal-driven baseline and statistical differential analysis platform &mdash; a modern
+    replacement for the legacy NSRL hash set, enriched with APT intelligence, fidelity scoring,
+    and behavioral differentials.
+  </p>
+  <div class="cap-grid">
+
+    <!-- NextGen NSRL -->
+    <div class="category-header">
+      <h3><span class="cat-dot" style="background:var(--accent)"></span> NextGen NSRL</h3>
+    </div>
+    <div class="cap-card">
+      <h4>Build NextGen NSRL</h4>
+      <p>Builds clean process baselines from running systems, enriched with VirusTotal verdicts
+         across multiple API keys. The agentic Fidelity Index engine produces fidelity-index.json
+         and process-baseline.json artifacts for downstream differential analysis.</p>
+      <div class="cap-modules">VTBaseline.psm1 &middot; Build-VTFidelityIndex</div>
+    </div>
+    <div class="cap-card">
+      <h4>APT Master Intelligence Pull</h4>
+      <p>Pulls VirusTotal metadata for nation-state actor hash sets (apt/APTs/**/*_Master_Intel.csv).
+         Run against ALL APT families or filter to a specific actor or malware family for targeted
+         analysis.</p>
+      <div class="cap-modules">AptMasterIntelVT.psm1 &middot; 50+ APT profiles</div>
+    </div>
+    <div class="cap-card">
+      <h4>IOC Normalization &amp; Cleanup</h4>
+      <p>Deduplicates IOC lists by normalizing MD5/SHA1 to SHA256 via VirusTotal, filters out
+         already-known MalwareBazaar entries, and organizes local baselines across categories
+         with dedupe across the corpus.</p>
+      <div class="cap-modules">GetDedupHashesToSha256 &middot; GetRemoveMalwareBazaarEntries &middot; OrganizeBaselines</div>
+    </div>
+
+    <!-- Differential Analysis -->
+    <div class="category-header">
+      <h3><span class="cat-dot" style="background:var(--accent2)"></span> Statistical Differential Analysis</h3>
+    </div>
+    <div class="cap-card">
+      <h4>Malicious API / DLL Differentials</h4>
+      <p>Statistical analysis of malicious API calls and DLL loads against the clean process
+         baseline. Identifies anomalous behavior that distinguishes malware from legitimate software
+         &mdash; the long tail where attackers live.</p>
+      <div class="cap-modules">maliciousDifferential &middot; maliciousApiDllDifferential</div>
+    </div>
+    <div class="cap-card">
+      <h4>Targeted Malware Differentials</h4>
+      <p>Specified differential analysis for individual malware families or APT campaigns.
+         Cross-references YARA, Sigma, certificate, and API differential signals stored as
+         versioned JSON artifacts.</p>
+      <div class="cap-modules">targetedMalwareDifferentialAnalysis &middot; specifiedMaliciousApiDllDifferential</div>
+    </div>
+    <div class="cap-card">
+      <h4>Purple Team Detection Pull</h4>
+      <p>Pulls VirusTotal YARA and Sigma detection metadata for a list of hashes, measuring
+         which samples are caught by which rules &mdash; quantifying detection coverage across
+         the rule corpus.</p>
+      <div class="cap-modules">GetVTDetectionsFromList</div>
     </div>
 
   </div>
@@ -637,6 +714,8 @@
 <footer class="footer">
   <div class="footer-links">
     <a href="https://github.com/lasersharkkiller/elasticPotato" target="_blank">GitHub: Elastic Potato</a>
+    <a href="https://github.com/lasersharkkiller/hardPotato" target="_blank">GitHub: Hardening &amp; Compliance</a>
+    <a href="https://github.com/lasersharkkiller/statisticalDifferentialPotato" target="_blank">GitHub: NextGen NSRL</a>
     <a href="#reports">Reports</a>
     <a href="https://www.youtube.com/playlist?list=PLrT_Ie1mPkmBFqIA1SlnjVf02FLJEbCLD" target="_blank" rel="noopener">Aprende CompTIA A+</a>
     <a href="#capabilities">Capabilities</a>
