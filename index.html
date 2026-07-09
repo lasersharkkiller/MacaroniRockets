@@ -289,6 +289,7 @@
     <span class="rocket">&#127744;</span> MACARONI ROCKETS
   </div>
   <div class="nav-links">
+    <a href="#edr">EDR</a>
     <a href="#reports">Reports</a>
     <a href="#capabilities">Capabilities</a>
     <a href="#mission">Mission</a>
@@ -306,13 +307,15 @@
       &mdash; built by the community, for the community.
     </p>
     <div class="hero-badges">
+      <span class="badge badge-green">NextGen EDR &mdash; Beta</span>
       <span class="badge badge-blue">Threat Intelligence</span>
       <span class="badge badge-red">MITRE ATT&amp;CK</span>
       <span class="badge badge-green">EDR Analysis</span>
       <span class="badge badge-purple">Open Source</span>
     </div>
     <div class="hero-cta">
-      <a href="#reports" class="btn btn-primary">View Reports &darr;</a>
+      <a href="#edr" class="btn btn-primary">Explore NextGen EDR &darr;</a>
+      <a href="#reports" class="btn btn-outline">View Reports</a>
       <a href="https://github.com/lasersharkkiller/elasticPotato" target="_blank" class="btn btn-outline">
         &#9733; Elastic Potato on GitHub
       </a>
@@ -323,6 +326,113 @@
         &#9733; NextGen NSRL on GitHub
       </a>
     </div>
+  </div>
+</section>
+
+<!-- NextGen EDR — Flagship Product -->
+<section id="edr">
+  <div class="section-label">// Flagship Product</div>
+  <h2 class="section-title">NextGen EDR</h2>
+  <p class="section-desc">
+    A next-generation endpoint detection &amp; response platform for <strong>Windows and Linux</strong>
+    &mdash; pairing kernel-grade telemetry and hypervisor-assisted memory integrity with AMSI/ETW
+    behavioral detection, on-box YARA, memory-injection hunting, boot-chain / bootkit integrity, and
+    built-in CIS/NIST/CMMC compliance. Binaries are <strong>EV code-signed</strong>; the platform is
+    currently in <strong>beta</strong>.
+  </p>
+  <div class="cap-grid">
+
+    <!-- Windows — Behavioral Detection (beta) -->
+    <div class="category-header">
+      <h3><span class="cat-dot" style="background:var(--accent)"></span> Windows &mdash; Behavioral Detection
+        <span style="font-family:var(--mono);font-size:.68rem;color:var(--accent3);margin-left:8px;letter-spacing:.08em;">AVAILABLE &middot; BETA</span></h3>
+    </div>
+    <div class="cap-card">
+      <h4>AMSI Provider</h4>
+      <p>Scans PowerShell, WSH, .NET, and Office-macro content in real time through the Antimalware
+         Scan Interface &mdash; with self-integrity checks that detect tampering of its own hooks,
+         COM vtable, and keyword tables.</p>
+      <div class="cap-modules">AmsiProvider &middot; anti-tamper self-check</div>
+    </div>
+    <div class="cap-card">
+      <h4>ETW Behavioral Engine</h4>
+      <p>Consumes .NET runtime, AMSI, Security-Mitigations (ACG/CIG/CFG/CET), and Win32k providers
+         plus PowerShell script-block logging &mdash; with a pipeline-integrity watchdog that catches
+         BYOVD/exploit attempts to blind ETW telemetry.</p>
+      <div class="cap-modules">ETW consumers &middot; TracingFlags watchdog</div>
+    </div>
+    <div class="cap-card">
+      <h4>Memory Injection Scanner</h4>
+      <p>Hunts process hollowing, module stomping, and process ghosting / doppelg&auml;nging by
+         cross-checking in-memory images against their backing files and first-page hashes.</p>
+      <div class="cap-modules">hollowing &middot; stomping &middot; ghosting</div>
+    </div>
+    <div class="cap-card">
+      <h4>Boot-Chain Integrity</h4>
+      <p>Raw-disk MBR/VBR drift, hidden-partition, small-driver-swap, and EFI-variable checks that
+         catch TDL4-class bootkits &mdash; Rovnix, Olmasco, Cidox, Mayachok, Necurs, Carberp &mdash;
+         via on-disk YARA.</p>
+      <div class="cap-modules">raw-disk scan &middot; bootkit YARA</div>
+    </div>
+    <div class="cap-card">
+      <h4>YARA, CVE &amp; Compliance</h4>
+      <p>On-box file and in-memory YARA scanning, installed-product CVE matching, and a built-in
+         compliance engine scoring hosts against CIS Benchmarks, NIST 800-53/171, and CMMC 2.0
+         with optional auto-hardening.</p>
+      <div class="cap-modules">file + memory YARA &middot; CVE &middot; CIS/NIST/CMMC</div>
+    </div>
+    <div class="cap-card">
+      <h4>TPM Attestation &amp; Forensics</h4>
+      <p>TPM 2.0 PCR reads with an NCrypt-signed quote for boot-chain attestation, plus automatic
+         forensic capture &mdash; modules, handles, network, and minidump &mdash; on every Critical
+         detection.</p>
+      <div class="cap-modules">TPM attestation &middot; forensic capture</div>
+    </div>
+
+    <!-- Windows — Kernel & Hypervisor -->
+    <div class="category-header">
+      <h3><span class="cat-dot" style="background:var(--accent2)"></span> Windows &mdash; Kernel &amp; Hypervisor
+        <span style="font-family:var(--mono);font-size:.68rem;color:var(--warn);margin-left:8px;letter-spacing:.08em;">ATTESTATION IN PROGRESS</span></h3>
+    </div>
+    <div class="cap-card">
+      <h4>Kernel Callback Driver</h4>
+      <p>Process, thread, and image-load notifications; object-callback handle protection; registry
+         and file-system minifilter; WFP network filtering; and kernel-enforced anti-tamper of the
+         agent's own processes.</p>
+      <div class="cap-modules">minifilter &middot; Ps/Ob/Cm callbacks &middot; WFP</div>
+    </div>
+    <div class="cap-card">
+      <h4>Thin Hypervisor</h4>
+      <p>An Intel VT-x / EPT hypervisor that monitors memory integrity below the kernel &mdash;
+         surfacing stealth modifications and EPT-hidden hooks that a kernel driver alone can miss.</p>
+      <div class="cap-modules">VT-x &middot; EPT memory monitoring</div>
+    </div>
+    <div class="cap-card">
+      <h4>ELAM Boot Protection</h4>
+      <p>An early-launch anti-malware driver that classifies every boot-start driver before it
+         initializes &mdash; LOLDriver / BYOVD hash blocklists, re-sign-resistant Authenticode
+         checks, and DriverLoadPolicy tamper detection.</p>
+      <div class="cap-modules">boot-driver classification &middot; roadmap</div>
+    </div>
+
+    <!-- Linux -->
+    <div class="category-header">
+      <h3><span class="cat-dot" style="background:var(--accent3)"></span> Linux &mdash; Runtime Detection</h3>
+    </div>
+    <div class="cap-card">
+      <h4>eBPF Runtime Agent</h4>
+      <p>A Tetragon / eBPF-based agent for runtime detection on Linux &mdash; process, network, and
+         file telemetry with rootkit and bootkit hunting, validated end-to-end against live
+         BPFDoor detonations.</p>
+      <div class="cap-modules">Tetragon &middot; cBPF / eBPF detection</div>
+    </div>
+    <div class="cap-card">
+      <h4>Bootkit &amp; TPM Integrity</h4>
+      <p>Per-partition VBR hashing, raw-disk bootkit YARA, EFI / bootloader monitoring, and TPM 2.0
+         PCR drift detection across reboots &mdash; forwarding signals to an Elastic SIEM.</p>
+      <div class="cap-modules">PCR drift &middot; raw-disk scan &middot; Elastic forwarding</div>
+    </div>
+
   </div>
 </section>
 
@@ -732,6 +842,7 @@
 <!-- Footer -->
 <footer class="footer">
   <div class="footer-links">
+    <a href="#edr">NextGen EDR</a>
     <a href="https://github.com/lasersharkkiller/elasticPotato" target="_blank">GitHub: Elastic Potato</a>
     <a href="https://github.com/lasersharkkiller/hardPotato" target="_blank">GitHub: Hardening &amp; Compliance</a>
     <a href="https://github.com/lasersharkkiller/statisticalDifferentialPotato" target="_blank">GitHub: NextGen NSRL</a>
